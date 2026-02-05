@@ -56,11 +56,11 @@ Ports are configured through Docker Compose files, Dockerfiles, and application 
 **Description:** Same as Hub + Nginx but optimized for ARM64 architecture.
 
 Port configuration identical to standard Hub + Nginx mode:
-- Nginx: Host 8080 → Container 80
+- Nginx: Host 8080 ? Container 80
 - Backend: Internal 8000
 - Frontend: Internal 80
-- MongoDB: Host 27011 → Container 27017
-- Redis: Host 6311 → Container 6379
+- MongoDB: Host 27011 ? Container 27017
+- Redis: Host 6311 ? Container 6379
 
 ## Configuration Details
 

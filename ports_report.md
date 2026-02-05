@@ -38,17 +38,17 @@ Ports are configured through Docker Compose files, Dockerfiles, and application 
 ### 2. Hub + Nginx Compose (Reverse Proxy)
 
 **Files:** `docker-compose.hub.nginx.yml`, `docker-compose.hub.nginx.arm.yml`  
-**Description:** Single entry point through Nginx reverse proxy on host port 8080 (container 80). Internal services communicate via Docker network.
+**Description:** Single entry point through Nginx reverse proxy on host port 8061 (container 80). Internal services communicate via Docker network.
 
 | Service | Host Port | Container Port | Purpose | Source |
 |---------|-----------|----------------|---------|--------|
-| Nginx Reverse Proxy | 8080 | 80 | Unified entry point for frontend and API | [docker-compose.hub.nginx.yml#L181-183](docker-compose.hub.nginx.yml#L181-183), [docker/nginx.conf#L2](docker/nginx.conf#L2) |
+| Nginx Reverse Proxy | 8061 | 80 | Unified entry point for frontend and API | [docker-compose.hub.nginx.yml#L181-183](docker-compose.hub.nginx.yml#L181-183), [docker/nginx.conf#L2](docker/nginx.conf#L2) |
 | Backend API (Internal) | N/A | 8000 | FastAPI REST API (accessed via /api) | [docker-compose.hub.nginx.yml#L74-75](docker-compose.hub.nginx.yml#L74-75) |
 | Frontend (Internal) | N/A | 80 | Vue.js SPA (accessed via /) | [docker-compose.hub.nginx.yml#L158-159](docker-compose.hub.nginx.yml#L158-159) |
 | MongoDB | 27011 | 27017 | Database service | [docker-compose.hub.nginx.yml#L22-23](docker-compose.hub.nginx.yml#L22-23) |
 | Redis | 6311 | 6379 | Cache service | [docker-compose.hub.nginx.yml#L47-48](docker-compose.hub.nginx.yml#L47-48) |
 
-**Usage:** Access everything at `http://localhost:8080` (frontend) and `http://localhost:8080/api` (API).
+**Usage:** Access everything at `http://localhost:8061` (frontend) and `http://localhost:8061/api` (API).
 
 ### 3. ARM64 Variant
 
@@ -56,7 +56,7 @@ Ports are configured through Docker Compose files, Dockerfiles, and application 
 **Description:** Same as Hub + Nginx but optimized for ARM64 architecture.
 
 Port configuration identical to standard Hub + Nginx mode:
-- Nginx: Host 8080 ? Container 80
+- Nginx: Host 8061 ? Container 80
 - Backend: Internal 8000
 - Frontend: Internal 80
 - MongoDB: Host 27011 ? Container 27017
@@ -88,15 +88,15 @@ Port configuration identical to standard Hub + Nginx mode:
 ## Health Checks
 
 All services include health checks that test connectivity on their respective ports:
-- Backend: `http://localhost:8011/api/health` (direct) or `http://localhost:8080/api/health` (hub proxy)
-- Frontend: `http://localhost:3011/health` (direct) or `http://localhost:8080/health` (hub proxy)
+- Backend: `http://localhost:8011/api/health` (direct) or `http://localhost:8061/api/health` (hub proxy)
+- Frontend: `http://localhost:3011/health` (direct) or `http://localhost:8061/health` (hub proxy)
 - MongoDB: MongoDB ping command
 - Redis: Redis ping command
 
 ## Notes
 
-- Frontend API base: direct mode uses `VITE_API_BASE_URL=http://localhost:8011`; hub mode should use `/api` and be accessed via `http://localhost:8080`
-- CORS: direct compose now allows `http://localhost:3011`; hub mode allows `http://localhost:8080` (see .env.docker)
+- Frontend API base: direct mode uses `VITE_API_BASE_URL=http://localhost:8011`; hub mode should use `/api` and be accessed via `http://localhost:8061`
+- CORS: direct compose now allows `http://localhost:3011`; hub mode allows `http://localhost:8061` (see .env.docker)
 - Ports can be customized by modifying docker-compose files or environment variables
 - ARM64 variant uses platform-specific images but same port configuration
 - Management tools (Redis Commander, Mongo Express) are optional and run in separate profiles

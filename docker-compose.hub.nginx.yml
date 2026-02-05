@@ -20,7 +20,7 @@ services:
     container_name: tradingagents-mongodb
     restart: unless-stopped
     ports:
-      - "27017:27017"
+      - "27011:27017"
     volumes:
       - tradingagents_mongodb_data:/data/db
       # 注意：不挂载初始化脚本，使用 MongoDB 自动创建的 root 用户
@@ -45,7 +45,7 @@ services:
     container_name: tradingagents-redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "6311:6379"
     volumes:
       - tradingagents_redis_data:/data
     environment:
@@ -88,19 +88,19 @@ services:
       TRADINGAGENTS_LOG_FILE: "/app/logs/tradingagents.log"
       # MongoDB配置（使用 root 用户）
       MONGODB_HOST: "mongodb"
-      MONGODB_PORT: "27017"
+      MONGODB_PORT: "27011"
       MONGODB_USERNAME: "admin"
       MONGODB_PASSWORD: "tradingagents123"
       MONGODB_DATABASE: "tradingagents"
       MONGODB_AUTH_SOURCE: "admin"
       # 注意：authSource=admin 表示在 admin 数据库中验证用户
-      MONGODB_URL: "mongodb://admin:tradingagents123@mongodb:27017/tradingagents?authSource=admin"
-      MONGODB_CONNECTION_STRING: "mongodb://admin:tradingagents123@mongodb:27017/tradingagents?authSource=admin"
+      MONGODB_URL: "mongodb://admin:tradingagents123@mongodb:27011/tradingagents?authSource=admin"
+      MONGODB_CONNECTION_STRING: "mongodb://admin:tradingagents123@mongodb:27011/tradingagents?authSource=admin"
       # Redis配置
       REDIS_HOST: "redis"
-      REDIS_PORT: "6379"
+      REDIS_PORT: "6311"
       REDIS_PASSWORD: "tradingagents123"
-      REDIS_URL: "redis://:tradingagents123@redis:6379/0"
+      REDIS_URL: "redis://:tradingagents123@redis:6311/0"
       DOCKER_CONTAINER: "true"
       # 安全配置
       JWT_SECRET: "docker-jwt-secret-key-change-in-production-2024"
@@ -179,7 +179,7 @@ services:
     container_name: tradingagents-nginx
     restart: unless-stopped
     ports:
-      - "80:80" 
+      - "8080:80" 
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
